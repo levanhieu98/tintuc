@@ -14,14 +14,14 @@
                             </h2>
                           <ul class="header-dropdown col-md-6  ">
                           
-                              <form action="admin/tin/ketquatimkiem" method="post" accept-charset="utf-8" >  
-                               @csrf
-                        <input name="search" type="text" class="form-control" placeholder="Search Here " target="_self">
+                            {{--   <form action="admin/tin/ketquatimkiem" method="post" accept-charset="utf-8" >  
+                               @csrf --}}
+                        <input name="search" id="search"  type="text" class="form-control" placeholder="Search Here " target="_self">
                             </ul>
                         </div>
                             <div> @include('error.note')</div>
                         <div class="body">
-                            <div class="table-responsive">
+                            <div class="table-responsive ">
                                 <table  class=" table table-bordered table-striped table-hover js-basic-example dataTable ">
                                     <thead>
                                         <tr>
@@ -38,9 +38,11 @@
                                            <td> <a href="admin/tin/chitiettin/{{$l->Id_tin}}">{{$l->Tieude}}</a></td>
                                       
                                         </tr>
-                                 @endforeach
+                                  @endforeach
                                     </tbody>
                                 </table>
+                             <div >  {{$list->links()}}</div>
+                               
                             </div>
                         </div>
                     </div>
@@ -69,3 +71,23 @@
 <script src="js/pages/tables/jquery-datatable.js"></script>
 </html>
 @endsection
+
+@section('ajax')
+ <script type="text/javascript">
+            $('#search').on('keyup',function(){
+                $value = $(this).val();
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('search') }}',
+                    data: {
+                        'key': $value
+                    },
+                    success:function(data){
+                        $('tbody').html(data);
+                    }
+                    
+                });
+            })
+            $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+        </script>
+@endsection()

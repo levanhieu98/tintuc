@@ -13,7 +13,7 @@ class tinController extends Controller
 {
      function dstin()
     {
-    	$list=DB::table('tin')->get();
+    	$list=DB::table('tin')->paginate(4);
     	return view('admin.tin.tin')->with(['list'=>$list]);
     }
     function themtin()
@@ -74,9 +74,28 @@ class tinController extends Controller
     }
      function ketquatimkiem(Request $request)
     {
-       $list=DB::table('tin')->where('Tieude','like','%'.$request->search.'%')->orwhere('Id_tin',$request->search)->get();
+       // $list=DB::table('tin')->where('Tieude','like','%'.$request->search.'%')->orwhere('Id_tin',$request->search)->get();
+       //        return view('admin.tin.tin')->with(['list'=>$list]); 
+       if ($request->ajax()) {
+            $output ="";
+             $list = DB::table('tin')->where('Tieude','like','%'.$request->key.'%')->get(['Id_tin','Tieude']);
+            if ( $list->count()>0) {
+                foreach ( $list as  $l) {
+                    $output .= '<tr>
+                    <td> <a href="admin/tin/chitiettin/'.$l->Id_tin.'">' .  $l->Id_tin. '</a> </td>
+                    <td><a href="admin/tin/chitiettin/'.$l->Id_tin.'">' .  $l->Tieude . '</a> </td>
+                   
+                    </tr>';
+                }
+            }
+            else
+            {
+               echo "'<td colspan=2 style='text-align:center;font-size:20px;color:red '>Không tìm thấy </td>'";
+            }
 
-             return view('admin.tin.ketquatimkiem')->with(['list'=>$list]);    
+         
+            return Response($output);
+        }   
     }
     function xoatin($id,$idloai)
     {    $dem=DB::table('tin')->where('Id_loaitin',$idloai)->count('Id_tin'); 
