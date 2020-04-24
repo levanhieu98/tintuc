@@ -29,7 +29,7 @@
               <label for="Ten_KhongDau" >Tên_nhomtin</label>
             </div>
             <div class="col-sm-9">
-           <select name="Id_nhomtin" >
+           <select name="Id_nhomtin"  >
            @foreach( $group as $gr)
               <option @if($dr->Id_nhomtin==$gr->Id_nhomtin)
                           {{'selected'}}
@@ -82,4 +82,9 @@
 </div>
 </body>
 </html>
+<script>
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.btn.dropdown-toggle.btn-default')[0].style.display = 'none';
+  })
+</script>
 @endsection

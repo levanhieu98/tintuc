@@ -150,5 +150,10 @@
   </div>
 </div>
 </body>
+<script>
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.btn.dropdown-toggle.btn-default')[0].style.display = 'none';
+  })
+</script>
 </html>
 @endsection
