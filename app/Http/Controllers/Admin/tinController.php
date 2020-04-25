@@ -13,8 +13,13 @@ class tinController extends Controller
 {
      function dstin()
     {
-    	$list=DB::table('tin')->paginate(4);
+    	$list=DB::table('tin')->paginate(10);
     	return view('admin.tin.tin')->with(['list'=>$list]);
+    }
+    function phantrang()
+    {
+        $list=DB::table('tin')->paginate(10);
+        return view('admin.tin.phantrang')->with(['list'=>$list]);
     }
     function themtin()
     {   $drand=DB::table('loaitin')->get();
@@ -78,7 +83,7 @@ class tinController extends Controller
        //        return view('admin.tin.tin')->with(['list'=>$list]); 
        if ($request->ajax()) {
             $output ="";
-             $list = DB::table('tin')->where('Tieude','like','%'.$request->key.'%')->get(['Id_tin','Tieude']);
+             $list = DB::table('tin')->where('Tieude','like','%'.$request->key.'%')->paginate(10);
             if ( $list->count()>0) {
                 foreach ( $list as  $l) {
                     $output .= '<tr>
