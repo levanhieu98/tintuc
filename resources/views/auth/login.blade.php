@@ -6,13 +6,13 @@
     <div class="logo">
         <a href="javascript:void(0);"><b>QUẢN TRỊ WEBSITE</b></a>
         <small>Chúc ngày mới an lành</small>
+
     </div>
     <div class="card">
         <div class="body">
             <form id="sign_in" method="POST" action="/login">
                 @csrf
                 <div class="msg">Mời bạn đăng nhập</div>
-               
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="material-icons">person</i>

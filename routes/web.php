@@ -31,6 +31,8 @@ Route::get('/admin/home', 'Admin\HomeController@index')->name('admin.home');
 Route::group(['prefix' => 'admin'], function () {
     Route::get('home', 'Admin\HomeController@index')->name('admin.home');
     Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+    Route::get('reset','Auth\ResetPasswordController@resetpassword');
+    Route::post('newpassword','Auth\ResetPasswordController@newpassword');
     //nhom tin
     Route::group(['prefix' => 'nhomtin'], function () {
         Route::get('dsnhomtin', 'Admin\nhomtinController@dsnhomtin');
