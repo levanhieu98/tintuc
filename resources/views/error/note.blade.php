@@ -5,11 +5,10 @@
 @if(Session::has('alert'))
 <p class="alert alert-success row-md-6">{{Session::get('alert')}}</p>
 @endif
-
 <!-- bien $error laravel cung cap san  -->
 @if (count($errors)>0)
     <div class="alert alert-danger">
-        <ul >
+        <ul type="none" >
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach

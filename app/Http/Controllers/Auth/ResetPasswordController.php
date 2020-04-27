@@ -36,24 +36,35 @@ class ResetPasswordController extends Controller
 
     function resetpassword()
     {
-        return view('auth.passwords.reset');
+      return view('auth.passwords.reset');
     }
     function newpassword(Request $requests)
     {
-        $requests->validate([
-           'password'=>'required|confirmed' ,
-           'password_confirmation'=>'required|min:8' ,
-        ],
-        [
-          'password.required'=>'Chưa nhập mật khẩu', 
-          'password_confirmation.required'=>'Chưa nhập mật khẩu mới', 
-          'password_confirmation.min'=>'Mật khẩu mới ít nhất 8 kí tự',
-          'password.confirmed'=>'Không trùng khớp ',  
-        ]);
+      $requests->validate([
+       'password'=>'required|confirmed' ,
+       'password_confirmation'=>'required|min:8' ,
+       'password_cu'=>'required'
+     ],
+     [
+      'password.required'=>'Chưa nhập mật khẩu ', 
+      'password_cu.required'=>'Chưa nhập mật khẩu cũ ',
+      'password_confirmation.required'=>'Chưa nhập mật khẩu ', 
+      'password_confirmation.min'=>'Mật khẩu mới ít nhất 8 kí tự',
+      'password.confirmed'=>'Không trùng khớp ',  
+    ]);
       
-        $mkmoi=Hash::make($requests->password);
-        $reset=DB::table('Admin')->where('id',Auth::id())->update(['password'=>$mkmoi]);
-        return redirect('admin/logout');
-     
+      $mkmoi=Hash::make($requests->password);
+      $mkcu=$requests->password_cu; 
+      if(Hash::check($mkcu,Auth::user()->password))
+      {
+         $reset=DB::table('Admin')->where('id',Auth::id())->update(['password'=>$mkmoi]);
+            return redirect('admin/logout');
+      }
+      else
+      {
+         return redirect('admin/reset')->with('message','Mật khẩu cũ không chính xác');
+       
+      }
+
     }
-}
+  }
